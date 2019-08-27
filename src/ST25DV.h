@@ -25,33 +25,77 @@ class ST25DV
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
         void setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat);
 
+
+
     //General functions
         ST25DV(Wire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
         ST25DV(Wire port);
 
 
+
+
     //User memory functions
 
 
+
+
     //Dynamic register functions
-        uint8_t getGPOMode();
-        void setGPOMode(uint8_t mode);
-        uint8_t getEHMode();
-        void setEHMode(uint8_t mode);
-        uint8_t getI2CSecurityStatus();
-        uint8_t getInterruptStatus();
-        uint8_t getFastTransferMode();
-        void setFastTransferMode(uint8_t mode);
-        uint8_t getFastTransferLength();
+        uint8_t getGPOMode_Dyn();
+        void setGPOMode_Dyn(uint8_t val);
+        uint8_t getGPOEnabled_Dyn();
+        void setGPOEnabled_Dyn(uint8_t val);
+
+        uint8_t getEHEnabled();
+        void setEHEnabled(uint8_t val);
+        uint8_t getEHActive();//TODO: Check meaning
+        uint8_t getRFFieldPresent();
+        uint8_t getVCCOn();
+
+        uint8_t getRFDisable_Dyn();
+        void setRFDisable_Dyn(uint8_t val);
+        uint8_t getRFSleep_Dyn();
+        void setRFSleep_Dyn(uint8_t val);
+
+        uint8_t getI2CUnlocked();
+
+        uint8_t getInterruptSource();
+
+        uint8_t getFTMEnable();
+        void setFTMEnable(uint8_t val);
+        uint8_t getHostPutMessage();
+        uint8_t getRFPutMessage();
+        uint8_t getHostMissMessage();
+        uint8_t getRFMissMessage();
+        uint8_t getHostCurrentMessage();
+        uint8_t getRFCurrentMessage();
+
+        uint8_t getMailboxMessageSize();
+
+
 
     //Fast transfer mode buffer functions
         
 
+
+
+
     //System configuration area functions
+        uint8_t unlockI2C(uint64_t pass);
+        void lockI2C();
+        
+        uint8_t changeI2CPassword(uint64_t newpass);
+        
+        
         //TODO add rest of registers
         uint8_t getENDA(uint8_t area);
         void setENDA(uint8_t area, uint8_t endpoint);
         //TODO add rest of registers
+
+
+        uint8_t getRFDisable();
+        void setRFDisable(uint8_t val);
+        uint8_t getRFSleep();
+        void setRFSleep(uint8_t val);
 
 
 
@@ -68,9 +112,14 @@ class ST25DV
         uint64_t getI2CPass();
         void setI2CPass(uint64_t pass);
         
+
+
+        
     private:
         Wire WIREPORT;//Inherit properly
         uint8_t GPO_PIN;
+        uint8_t sizeK;
+        uint8_t FTM_ENABLED;
         
         const uint8_t ADDRESS = 0xA6;//or its 0x53(if last bit is not direction)//For user memory, dynamic registers, FTM mailbox
         const uint8_t ADDRESS_CONFIG = 0xAE;//or its 0x57(if last bit is not direction)//For sytem config registers
