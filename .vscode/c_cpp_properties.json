@@ -3,6 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\adafruit\\tools\\**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\adafruit\\hardware\\samd\\1.4.1\\**",
                 "${workspaceFolder}/**"
             ],
             "defines": [
@@ -10,11 +12,13 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "intelliSenseMode": "msvc-x64"
+            "intelliSenseMode": "msvc-x64",
+            "forcedInclude": []
         },
         {
             "name": "Arduino",
             "includePath": [
+                "C:\\Program Files (x86)\\Arduino"
                 "${workspaceFolder}/**"
             ],
             "defines": [

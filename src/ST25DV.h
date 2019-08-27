@@ -10,7 +10,7 @@
 #ifndef ST25DV_h
 #define ST25DV_h
 
-#include "Arduino.h"
+#include "arduino.h"
 #include "ST25DV.h"
 #include Wire.h
 #include stdint.h
@@ -18,12 +18,16 @@
 class ST25DV
 {
     public:
-        ST25DV(Wire port, uint8_t gpoPin);
     //Worker functions
-        uint8_t getByte(uint16_t add);
-        void setByte(uint16_t add, uint8_t dat);
-        bool getBit(uint8_t reg, uint8_t bit);
-        void setBit(uint8_t reg, uint8_t bit, bool dat);
+        //TODO get and set bulk functions
+        uint8_t getByte(uint8_t add, uint16_t reg);
+        void setByte(uint8_t add, uint16_t reg, uint8_t dat);
+        bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
+        void setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat);
+
+    //General functions
+        ST25DV(Wire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
+        ST25DV(Wire port);
 
 
     //User memory functions
@@ -65,10 +69,11 @@ class ST25DV
         void setI2CPass(uint64_t pass);
         
     private:
+        Wire WIREPORT;//Inherit properly
+        uint8_t GPO_PIN;
+        
         const uint8_t ADDRESS = 0xA6;//or its 0x53(if last bit is not direction)//For user memory, dynamic registers, FTM mailbox
         const uint8_t ADDRESS_CONFIG = 0xAE;//or its 0x57(if last bit is not direction)//For sytem config registers
-
-
 
     //User memory registers
         const uint16_t REG_USER_MEM_START = 0x0000;
