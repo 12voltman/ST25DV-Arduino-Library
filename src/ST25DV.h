@@ -18,19 +18,17 @@
 class ST25DV
 {
     public:
+    ST25DV(Wire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
+    ST25DV(Wire port);
+    
+    
+    
     //Worker functions
         //TODO get and set bulk functions
         uint8_t getByte(uint8_t add, uint16_t reg);
         void setByte(uint8_t add, uint16_t reg, uint8_t dat);
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
         void setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat);
-
-
-
-    //General functions
-        ST25DV(Wire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
-        ST25DV(Wire port);
-
 
 
 
@@ -114,7 +112,7 @@ class ST25DV
         
 
 
-        
+
     private:
         Wire WIREPORT;//Inherit properly
         uint8_t GPO_PIN;

@@ -13,34 +13,79 @@
 #include <Wire.h>
 #include "ST25DV.h"
 
-uint8_t ST25DV::getByte(uint16_t add, uint16_t reg){
-    uint8_t buffer = 0x00;
-    this->WIREPORT.beginTransmission(add);
-    this->WIREPORT.write(reg);
-    this->WIREPORT.endTransmission();
-    this->WIREPORT.requestFrom(add);
-    buffer = this->WIREPORT.read();
-    this->WIREPORT.endTransmission();
-    return buffer;
+/*Constructors*/{
+    void ST25DV::ST25DV(Wire portin, uint8_t gpoPin){
+        WIREPORT = portin;
+        GPO_PIN = gpoPin;
+        FTM_ENABLED = 1;
+        sizeK = getSizeK();
+    }
+
+    void ST25DV::ST25DV(Wire portin){
+        WIREPORT = portin;
+        GPO_PIN = 0;
+        FTM_ENABLED = 0;
+        sizeK = getSizeK();
+    }   
 }
 
-void ST25DV::setByte(uint16_t add, uint16_t reg, uint8_t dat){
-    this->WIREPORT.beginTransmission(add);
-    this->WIREPORT.write(reg);
-    this->WIREPORT.write(dat);
-    this->WIREPORT.endTransmission();
+
+/*Worker functions*/{
+    uint8_t ST25DV::getByte(uint16_t add, uint16_t reg){
+        uint8_t buffer = 0x00;
+        this->WIREPORT.beginTransmission(add);
+        this->WIREPORT.write(reg);
+        this->WIREPORT.endTransmission();
+        this->WIREPORT.requestFrom(add);
+        buffer = this->WIREPORT.read();
+        this->WIREPORT.endTransmission();
+        return buffer;
+    }
+
+    void ST25DV::setByte(uint16_t add, uint16_t reg, uint8_t dat){
+        this->WIREPORT.beginTransmission(add);
+        this->WIREPORT.write(reg);
+        this->WIREPORT.write(dat);
+        this->WIREPORT.endTransmission();
+    }
+
+    bool ST25DV::getBit(uint8_t add, uint8_t reg, uint8_t bit){
+        uint8_t buffer = getByte(add, reg);
+        buffer >>= bit;
+        buffer &= 0x01;
+        return buffer;
+    }
+
+    void ST25DV::setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat){
+        uint8_t mask = 0x01 << bit;
+        uint8_t buffer = getByte(add, reg);
+        buffer = dat ? buffer | mask : buffer & ~mask;
+        setByte(add, reg, buffer);
+    }
 }
 
-bool ST25DV::getBit(uint8_t add, uint8_t reg, uint8_t bit){
-    uint8_t buffer = getByte(add, reg);
-    buffer >>= bit;
-    buffer &= 0x01;
-    return buffer;
+/*User memory functions*/{
+
+
+
 }
 
-void ST25DV::setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat){
-    uint8_t mask = 0x01 << bit;
-    uint8_t buffer = getByte(add, reg);
-    buffer = dat ? buffer | mask : buffer & ~mask;
-    setByte(add, reg, buffer);
+/*Dynamic register functions*/{
+    
+    
+    
+    
+}
+
+/*Fast transfer mode buffer functions*/{
+
+
+
+}
+
+/*System configuration area functions*/{
+
+
+
+
 }
