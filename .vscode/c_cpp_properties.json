@@ -19,7 +19,6 @@
             "name": "Arduino",
             "includePath": [
                 "C:\\Program Files (x86)\\Arduino"
-                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
