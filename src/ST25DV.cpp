@@ -18,14 +18,36 @@
         WIREPORT = portin;
         GPO_PIN = gpoPin;
         FTM_ENABLED = 1;
-        sizeK = getSizeK();
+        switch (getSizeK())
+        {
+        case 04:
+            MEMENDPOINT = this->REG_USER_MEM_END_O4K;
+            break;
+        case 16:
+            MEMENDPOINT = this->REG_USER_MEM_END_16K;
+            break;
+        case 64:
+            MEMENDPOINT = this->REG_USER_MEM_END_64K;
+            break;
+        }
     }
 
     void ST25DV::ST25DV(Wire portin){
         WIREPORT = portin;
         GPO_PIN = 0;
         FTM_ENABLED = 0;
-        sizeK = getSizeK();
+        switch (getSizeK())
+        {
+        case 04:
+            MEMENDPOINT = this->REG_USER_MEM_END_O4K;
+            break;
+        case 16:
+            MEMENDPOINT = this->REG_USER_MEM_END_16K;
+            break;
+        case 64:
+            MEMENDPOINT = this->REG_USER_MEM_END_64K;
+            break;
+        }
     }   
 }
 
