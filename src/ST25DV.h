@@ -25,6 +25,8 @@ class ST25DV
     
     //Worker functions
         //TODO get and set bulk functions
+        uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);
+        void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat)
         uint8_t getByte(uint8_t add, uint16_t reg);
         void setByte(uint8_t add, uint16_t reg, uint8_t dat);
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
@@ -33,7 +35,10 @@ class ST25DV
 
 
     //User memory functions
-
+        uint8_t readByte(uint16_t reg);
+        void writeByte(uint16_t reg, uint8_t dat);
+        uint8_t* read(uint16_t reg, uint8_t len);
+        write(uint16_t reg, uint8_t len, uint8_t* dat);
 
 
 
@@ -72,8 +77,8 @@ class ST25DV
 
 
     //Fast transfer mode buffer functions
-        
-
+        uint8_t* readMailbox();
+        void writeMailbox(uint8_t len, uint8_t* dat);
 
 
 
@@ -81,7 +86,7 @@ class ST25DV
         uint8_t unlockI2C(uint64_t pass);
         void lockI2C();
         
-        uint8_t changeI2CPassword(uint64_t newpass);
+        void changeI2CPassword(uint64_t newpass);
         
         
         //TODO add rest of registers
@@ -114,10 +119,10 @@ class ST25DV
 
 
     private:
-        Wire WIREPORT;//Inherit properly
-        uint8_t GPO_PIN;
-        uint8_t sizeK;
-        uint8_t FTM_ENABLED;
+        TwoWire *WIREPORT;
+        uint8_t GPO_PIN = 0;
+        uint16_t MEMENDPOINT;
+        uint8_t FTM_ENABLED = 0;
         
         const uint8_t ADDRESS = 0xA6;//or its 0x53(if last bit is not direction)//For user memory, dynamic registers, FTM mailbox
         const uint8_t ADDRESS_CONFIG = 0xAE;//or its 0x57(if last bit is not direction)//For sytem config registers
