@@ -14,38 +14,25 @@
 #include "ST25DV.h"
 
 /*Constructors*/{
-    void ST25DV::ST25DV(Wire portin, uint8_t gpoPin){
-        WIREPORT = portin;
-        GPO_PIN = gpoPin;
-        FTM_ENABLED = 1;
-        switch (getSizeK())
-        {
-        case 04:
-            MEMENDPOINT = this->REG_USER_MEM_END_O4K;
-            break;
-        case 16:
-            MEMENDPOINT = this->REG_USER_MEM_END_16K;
-            break;
-        case 64:
-            MEMENDPOINT = this->REG_USER_MEM_END_64K;
-            break;
-        }
+    void ST25DV::ST25DV(TwoWire &portin, uint8_t gpoPin){
+        this->GPO_PIN = gpoPin;
+        this->FTM_ENABLED = 1;
+        ST25DV(portin);
     }
 
-    void ST25DV::ST25DV(Wire portin){
-        WIREPORT = portin;
-        GPO_PIN = 0;
-        FTM_ENABLED = 0;
+    void ST25DV::ST25DV(TwoWire &portin){
+        this->WIREPORT = portin;
+        this->WIREPORT->begin();
         switch (getSizeK())
         {
         case 04:
-            MEMENDPOINT = this->REG_USER_MEM_END_O4K;
+            this->MEMENDPOINT = this->REG_USER_MEM_END_O4K;
             break;
         case 16:
-            MEMENDPOINT = this->REG_USER_MEM_END_16K;
+            this->MEMENDPOINT = this->REG_USER_MEM_END_16K;
             break;
         case 64:
-            MEMENDPOINT = this->REG_USER_MEM_END_64K;
+            this->MEMENDPOINT = this->REG_USER_MEM_END_64K;
             break;
         }
     }   
@@ -53,22 +40,24 @@
 
 
 /*Worker functions*/{
-    uint8_t ST25DV::getByte(uint16_t add, uint16_t reg){
+    uint8_t ST25DV::getByte(uint8_t add, uint16_t reg){
         uint8_t buffer = 0x00;
-        this->WIREPORT.beginTransmission(add);
-        this->WIREPORT.write(reg);
-        this->WIREPORT.endTransmission();
-        this->WIREPORT.requestFrom(add);
-        buffer = this->WIREPORT.read();
-        this->WIREPORT.endTransmission();
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        this->WIREPORT->endTransmission();
+        this->WIREPORT->requestFrom(add);
+        buffer = this->WIREPORT->read();
+        this->WIREPORT->endTransmission();
         return buffer;
     }
 
-    void ST25DV::setByte(uint16_t add, uint16_t reg, uint8_t dat){
-        this->WIREPORT.beginTransmission(add);
-        this->WIREPORT.write(reg);
-        this->WIREPORT.write(dat);
-        this->WIREPORT.endTransmission();
+    void ST25DV::setByte(uint8_t add, uint16_t reg, uint8_t dat){
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        this->WIREPORT->write(dat);
+        this->WIREPORT->endTransmission();
     }
 
     bool ST25DV::getBit(uint8_t add, uint8_t reg, uint8_t bit){

@@ -25,6 +25,8 @@ class ST25DV
     
     //Worker functions
         //TODO get and set bulk functions
+        uint64_t get64bits(uint8_t add, uint16_t reg);
+        void set64bits(uint8_t add, uint16_t reg, uint64_t dat);
         uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);
         void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat)
         uint8_t getByte(uint8_t add, uint16_t reg);
@@ -108,8 +110,8 @@ class ST25DV
         uint8_t getAFI();
         uint16_t getMemBlocks();
         uint8_t getBlockSize();
-        uint16_t getSizeK();
-        uint8_t getICRef();//TODO: Check purpose and verify name
+        uint16_t getSizeK();//Derived function
+        uint8_t getICRef();
         uint64_t getUID();
         uint8_t getRevision();
         uint64_t getI2CPass();
