@@ -14,17 +14,14 @@
 #include "ST25DV.h"
 
 /*Constructors*/{
-    void ST25DV::ST25DV(TwoWire &portin, uint8_t gpoPin){
+    void ST25DV::begin(TwoWire &portin, uint8_t gpoPin){
         this->GPO_PIN = gpoPin;
         this->FTM_ENABLED = 1;
-        ST25DV(portin);
+        begin(portin);
     }
 
-    void ST25DV::ST25DV(TwoWire &portin){
+    uint8_t ST25DV::begin(TwoWire &portin){
         this->WIREPORT = portin;
-    }
-
-    uint8_t ST25DV::begin(){
         this->WIREPORT->begin();
         switch (getSizeK())
         {
