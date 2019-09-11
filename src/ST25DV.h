@@ -24,10 +24,12 @@ class ST25DV
     
     //Worker functions
         //TODO get and set bulk functions
-        uint64_t get64bits(uint8_t add, uint16_t reg);
-        void set64bits(uint8_t add, uint16_t reg, uint64_t dat);
         uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);
         void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat);
+        uint64_t get64bits(uint8_t add, uint16_t reg);
+        void set64bits(uint8_t add, uint16_t reg, uint64_t dat);
+        uint16_t get16bits(uint8_t add, uint16_t reg);
+        void set16bits(uint8_t add, uint16_t reg, uint16_t dat);
         uint8_t getByte(uint8_t add, uint16_t reg);
         void setByte(uint8_t add, uint16_t reg, uint8_t dat);
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
