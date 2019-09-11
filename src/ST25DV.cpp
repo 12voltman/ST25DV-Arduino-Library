@@ -22,11 +22,14 @@
 
     void ST25DV::ST25DV(TwoWire &portin){
         this->WIREPORT = portin;
+    }
+
+    uint8_t ST25DV::begin(){
         this->WIREPORT->begin();
         switch (getSizeK())
         {
         case 04:
-            this->MEMENDPOINT = this->REG_USER_MEM_END_O4K;
+            this->MEMENDPOINT = this->REG_USER_MEM_END_04K;
             break;
         case 16:
             this->MEMENDPOINT = this->REG_USER_MEM_END_16K;
@@ -46,7 +49,7 @@
         this->WIREPORT->write(reg >> 8);
         this->WIREPORT->write(reg & 0xFF);
         this->WIREPORT->endTransmission();
-        this->WIREPORT->requestFrom(add);
+        this->WIREPORT->requestFrom(add, 1);
         buffer = this->WIREPORT->read();
         this->WIREPORT->endTransmission();
         return buffer;

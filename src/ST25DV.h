@@ -18,9 +18,8 @@
 class ST25DV
 {
     public:
-    ST25DV(Wire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
-    ST25DV(Wire port);
-    
+    uint8_t begin(TwoWire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
+    uint8_t begin(TwoWire port);
     
     
     //Worker functions
@@ -28,7 +27,7 @@ class ST25DV
         uint64_t get64bits(uint8_t add, uint16_t reg);
         void set64bits(uint8_t add, uint16_t reg, uint64_t dat);
         uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);
-        void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat)
+        void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat);
         uint8_t getByte(uint8_t add, uint16_t reg);
         void setByte(uint8_t add, uint16_t reg, uint8_t dat);
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
@@ -126,8 +125,8 @@ class ST25DV
         uint16_t MEMENDPOINT;
         uint8_t FTM_ENABLED = 0;
         
-        const uint8_t ADDRESS = 0xA6;//or its 0x53(if last bit is not direction)//For user memory, dynamic registers, FTM mailbox
-        const uint8_t ADDRESS_CONFIG = 0xAE;//or its 0x57(if last bit is not direction)//For sytem config registers
+        const uint8_t ADDRESS = 0x53;//or its 0xA6(if last bit isdirection)//For user memory, dynamic registers, FTM mailbox
+        const uint8_t ADDRESS_CONFIG = 0x57;//or its 0xAE(if last bit isdirection)//For sytem config registers
 
     //User memory registers
         const uint16_t REG_USER_MEM_START = 0x0000;
