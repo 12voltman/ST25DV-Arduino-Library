@@ -9,19 +9,13 @@
 //				 https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/74/20/c5/ca/b8/a1/41/e3/DM00167716/files/DM00167716.pdf/jcr:content/translations/en.DM00167716.pdf
 //============================================================================
 
-#include <stdint.h>
-#include <Wire.h>
 #include "ST25DV.h"
 
 /*Constructors*/{
-    void ST25DV::begin(TwoWire &portin, uint8_t gpoPin){
-        this->GPO_PIN = gpoPin;
-        this->FTM_ENABLED = 1;
-        begin(portin);
-    }
+    void ST25DV::ST25DV(){/*null constructor*/}
 
     uint8_t ST25DV::begin(TwoWire &portin){
-        this->WIREPORT = portin;
+        this->WIREPORT = &portin;
         this->WIREPORT->begin();
         switch (getSizeK())
         {

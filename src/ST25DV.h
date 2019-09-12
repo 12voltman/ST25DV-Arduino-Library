@@ -11,15 +11,13 @@
 #define ST25DV_h
 
 #include "arduino.h"
-#include "ST25DV.h"
-#include Wire.h
-#include stdint.h
+#include <Wire.h>
+#include <stdint.h>
 
 class ST25DV
 {
     public:
-        uint8_t begin(TwoWire port, uint8_t gpoPin);//TODO: Inherit Wire instance gracefully
-        uint8_t begin(TwoWire port);
+        uint8_t begin(TwoWire &port = Wire);
     
     
     //Worker functions
