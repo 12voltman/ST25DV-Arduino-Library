@@ -16,7 +16,7 @@
 
     uint8_t ST25DV::begin(TwoWire &portin){
         this->WIREPORT = &portin;
-        this->WIREPORT->begin();
+        uint8_t result = this->WIREPORT->begin();
         switch (getSizeK())
         {
         case 04:
@@ -29,6 +29,7 @@
             this->MEMENDPOINT = this->REG_USER_MEM_END_64K;
             break;
         }
+        return result;
     }   
 //}
 
