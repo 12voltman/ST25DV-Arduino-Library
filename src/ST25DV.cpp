@@ -11,7 +11,7 @@
 
 #include "ST25DV.h"
 
-/*Constructors*/{
+/*Constructors*///{
     void ST25DV::ST25DV(){/*null constructor*/}
 
     uint8_t ST25DV::begin(TwoWire &portin){
@@ -30,10 +30,10 @@
             break;
         }
     }   
-}
+//}
 
 
-/*Worker functions*/{
+/*Worker functions*///{
     uint8_t ST25DV::getByte(uint8_t add, uint16_t reg){
         uint8_t buffer = 0x00;
         this->WIREPORT->beginTransmission(add);
@@ -67,30 +67,30 @@
         buffer = dat ? buffer | mask : buffer & ~mask;
         setByte(add, reg, buffer);
     }
-}
+//}
 
-/*User memory functions*/{
+/*User memory functions*///{
 
 
 
-}
+//}
 
-/*Dynamic register functions*/{
+/*Dynamic register functions*///{
     
     
     
     
-}
+//}
 
-/*Fast transfer mode buffer functions*/{
-
-
-
-}
-
-/*System configuration area functions*/{
+/*Fast transfer mode buffer functions*///{
 
 
 
+//}
 
-}
+/*System configuration area functions*///{
+
+
+
+
+//}

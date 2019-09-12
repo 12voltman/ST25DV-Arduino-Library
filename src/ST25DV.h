@@ -17,6 +17,7 @@
 class ST25DV
 {
     public:
+        ST25DV(void);
         uint8_t begin(TwoWire &port = Wire);
     
     
@@ -39,7 +40,7 @@ class ST25DV
         uint8_t readByte(uint16_t reg);
         void writeByte(uint16_t reg, uint8_t dat);
         uint8_t* read(uint16_t reg, uint8_t len);
-        write(uint16_t reg, uint8_t len, uint8_t* dat);
+        void write(uint16_t reg, uint8_t len, uint8_t* dat);
 
 
 
