@@ -35,13 +35,12 @@
 
 /*Worker functions*///{
     uint8_t ST25DV::getByte(uint8_t add, uint16_t reg){
-        uint8_t buffer = 0x00;
         this->WIREPORT->beginTransmission(add);
         this->WIREPORT->write(reg >> 8);
         this->WIREPORT->write(reg & 0xFF);
         this->WIREPORT->endTransmission();
         this->WIREPORT->requestFrom(add, 1);
-        buffer = this->WIREPORT->read();
+        uint8_t buffer = this->WIREPORT->read();
         this->WIREPORT->endTransmission();
         return buffer;
     }

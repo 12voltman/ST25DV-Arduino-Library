@@ -15,7 +15,7 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "intelliSenseMode": "msvc-x64",
+            "intelliSenseMode": "gcc-x64",
             "forcedInclude": [
                 "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.3\\cores\\arduino\\Arduino.h"
             ]
@@ -23,14 +23,20 @@
         {
             "name": "Arduino",
             "includePath": [
-                "C:\\Program Files (x86)\\Arduino"
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.8.3\\**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\adafruit\\tools\\**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\adafruit\\hardware\\samd\\1.4.1\\**",
+                "${workspaceFolder}/**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\adafruit\\hardware\\samd\\1.5.3\\**",
+                "C:\\Users\\Max Robinson\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\**"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "intelliSenseMode": "gcc-x86"
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4

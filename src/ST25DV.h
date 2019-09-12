@@ -126,8 +126,8 @@ class ST25DV
         uint16_t MEMENDPOINT;
         uint8_t FTM_ENABLED = 0;
         
-        const uint8_t ADDRESS = 0x53;//or its 0xA6(if last bit isdirection)//For user memory, dynamic registers, FTM mailbox
-        const uint8_t ADDRESS_CONFIG = 0x57;//or its 0xAE(if last bit isdirection)//For sytem config registers
+        const uint8_t ADDRESS = 0x53;//For user memory, dynamic registers, FTM mailbox
+        const uint8_t ADDRESS_CONFIG = 0x57;//For sytem config registers
 
     //User memory registers
         const uint16_t REG_USER_MEM_START = 0x0000;
