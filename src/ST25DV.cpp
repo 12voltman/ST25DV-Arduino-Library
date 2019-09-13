@@ -19,18 +19,7 @@
         this->WIREPORT = &portin;
         this->BUILT_IN_DELAY = 1;
         uint8_t result = this->WIREPORT->begin();
-        switch (getSizeK())
-        {
-        case 04:
-            this->MEMENDPOINT = this->REG_USER_MEM_END_04K;
-            break;
-        case 16:
-            this->MEMENDPOINT = this->REG_USER_MEM_END_16K;
-            break;
-        case 64:
-            this->MEMENDPOINT = this->REG_USER_MEM_END_64K;
-            break;
-        }
+        this->MEMENDPOINT = getLastAdd();
         return result;
     }
 
@@ -143,7 +132,7 @@
             this->WIREPORT->write(adat.d8[7-i]);
         }
         this->WIREPORT->endTransmission();
-        if(this->BUILT_IN_DELAY){//Passowrd comparison check delay and unlock verification
+        if(this->BUILT_IN_DELAY){//Password comparison check delay and unlock verification
             delay(10);
             return getI2CUnlocked();
         }
@@ -196,11 +185,33 @@
     }
 
     uint16_t ST25DV::getMemBlocks(){
-        return get16bits(this->ADDRESS_CONFIG, this->REG_MEM_SIZE);
+        return get16bits(this->ADDRESS_CONFIG, this->REG_MEM_SIZE_L);
     }
 
     uint8_t ST25DV::getBlockSize(){
         return getByte(this->ADDRESS_CONFIG, this->REG_BLK_SIZE);
+    }
+
+    uint8_t ST25DV::getSizeK(){
+        switch(getByte(this->ADDRESS_CONFIG, this->REG_MEM_SIZE_H)){
+            case 0x07:
+                return 64;
+            case 0x01:
+                return 16;
+            default:
+                return 4;
+        }
+    }
+
+    uint16_t ST25DV::getLastAdd(){
+        switch (getSizeK()){
+        case 04:
+            return this->REG_USER_MEM_END_04K;
+        case 16:
+            return this->REG_USER_MEM_END_16K;
+        case 64:
+            return this->REG_USER_MEM_END_64K;
+        }
     }
 
     uint8_t ST25DV::getICRef(){

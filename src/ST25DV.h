@@ -37,7 +37,6 @@ class ST25DV
         
     
     //Worker functions
-        //TODO get and set bulk functions
         //uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);//TODO for later
         //void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat);//TODO for later
         uint64_t get64bits(uint8_t add, uint16_t reg);
@@ -53,11 +52,10 @@ class ST25DV
 
 
     //User memory functions
-        uint8_t readByte(uint16_t reg);
-        void writeByte(uint16_t reg, uint8_t dat);
         //uint8_t* read(uint16_t reg, uint8_t len);//TODO for later
         //void write(uint16_t reg, uint8_t len, uint8_t* dat);//TODO for later
-
+        uint8_t readByte(uint16_t reg);
+        void writeByte(uint16_t reg, uint8_t dat);
 
 
     //Dynamic register functions
@@ -138,6 +136,7 @@ class ST25DV
         uint16_t getMemBlocks();
         uint8_t getBlockSize();
         uint16_t getSizeK();//Derived function
+        uint16_t getLastAdd();//Derived function
         uint8_t getICRef();
         uint64_t getUID();
         uint8_t getRevision();
@@ -199,7 +198,8 @@ class ST25DV
         const uint16_t REG_LOCK_AFI = 0x0011;
         const uint16_t REG_DSFID = 0x0012;
         const uint16_t REG_AFI = 0x0013;
-        const uint16_t REG_MEM_SIZE = 0x0014;
+        const uint16_t REG_MEM_SIZE_L = 0x0014;
+        const uint16_t REG_MEM_SIZE_H = 0x0015;
         const uint16_t REG_BLK_SIZE = 0x0016;
         const uint16_t REG_IC_REF = 0x0017;
         const uint16_t REG_UID_START = 0x0018;
