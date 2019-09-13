@@ -33,6 +33,7 @@ class ST25DV
     //Constructors
         ST25DV(void);
         uint8_t begin(TwoWire &port = Wire);
+        void enableDelay(bool en);
     
     
     //Worker functions
@@ -139,6 +140,7 @@ class ST25DV
         uint8_t getICRef();
         uint64_t getUID();
         uint8_t getRevision();
+
         uint64_t getI2CPass();
         void setI2CPass(uint64_t pass);
         
@@ -148,7 +150,7 @@ class ST25DV
     private:
         TwoWire *WIREPORT;
         uint16_t MEMENDPOINT;
-        
+        uint8_t BUILT_IN_DELAY;
         const uint8_t ADDRESS = 0x53;//For user memory, dynamic registers, FTM mailbox
         const uint8_t ADDRESS_CONFIG = 0x57;//For sytem config registers
 

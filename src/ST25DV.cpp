@@ -1,7 +1,8 @@
 //============================================================================
 // Name        : ST25DV.cpp
 // Author      : Max Robinson
-// Version     :
+// Date        : 27-09-2019
+// Version     : 0.1
 // Copyright   : Public Domain
 // Description : Arduino library to interface with the ST25DV**K series of
 //               dynamic NFC tags by ST. This library was created using the
@@ -16,6 +17,7 @@
 
     uint8_t ST25DV::begin(TwoWire &portin){
         this->WIREPORT = &portin;
+        this->BUILT_IN_DELAY = 1;
         uint8_t result = this->WIREPORT->begin();
         switch (getSizeK())
         {
@@ -30,7 +32,11 @@
             break;
         }
         return result;
-    }   
+    }
+
+    void enableDelay(bool en){
+        this->BUILT_IN_DELAY = en;
+    }
 
 
 
@@ -94,6 +100,7 @@
             this->WIREPORT->write(adat.d8[7-i]);
         }
         this->WIREPORT->endTransmission();
+        if(this->BUILT_IN_DELAY){delay(18);}//Maximum EEPROM write time in ms (6ms * up to 3 pages to write)
     }
 
     void ST25DV::set16bits(uint8_t add, uint16_t reg, uint16_t dat){
@@ -103,6 +110,7 @@
         this->WIREPORT->write(dat >> 8);
         this->WIREPORT->write(dat & 0xFF);
         this->WIREPORT->endTransmission();
+        if(this->BUILT_IN_DELAY){delay(12);}//Maximum EEPROM write time in ms (6ms * up to 2 pages to write)
     }
 
     void ST25DV::setByte(uint8_t add, uint16_t reg, uint8_t dat){
@@ -111,6 +119,7 @@
         this->WIREPORT->write(reg & 0xFF);
         this->WIREPORT->write(dat);
         this->WIREPORT->endTransmission();
+        if(this->BUILT_IN_DELAY){delay(6);}//Maximum EEPROM write time in ms (6ms * up to 1 page to write)
     }
 
     void ST25DV::setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat){
@@ -145,3 +154,48 @@
 
 
 //System configuration area functions
+
+
+    uint8_t ST25DV::getDSFIDLock(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_LOCK_DSFID);
+    }
+
+    uint8_t ST25DV::getAFILock(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_LOCK_AFI);
+    }
+
+    uint8_t ST25DV::getDSFID(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_DSFID);
+    }
+
+    uint8_t ST25DV::getAFI(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_AFI);
+    }
+
+    uint16_t ST25DV::getMemBlocks(){
+        return get16bits(this->ADDRESS_CONFIG, this->REG_MEM_SIZE);
+    }
+
+    uint8_t ST25DV::getBlockSize(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_BLK_SIZE);
+    }
+
+    uint8_t ST25DV::getICRef(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_IC_REF);
+    }
+
+    uint64_t ST25DV::getUID(){
+        return get64bits(this->ADDRESS_CONFIG, this->REG_UID_START);
+    }
+
+    uint8_t ST25DV::getRevision(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_IC_REV);
+    }
+
+    uint64_t ST25DV::getI2CPass(){
+        return get64bits(this->ADDRESS_CONFIG, this->REG_I2C_PWD_START);
+    }
+
+    void ST25DV::setI2CPass(uint64_t pass){
+        set64bits(this->ADDRESS_CONFIG, this->REG_I2C_PWD_START, pass);
+    }
