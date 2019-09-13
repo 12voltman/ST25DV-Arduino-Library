@@ -88,8 +88,8 @@ class ST25DV
 
 
     //Fast transfer mode buffer functions
-        uint8_t* readMailbox();
-        void writeMailbox(uint8_t len, uint8_t* dat);
+        //uint8_t* readMailbox();//TODO for later
+        //void writeMailbox(uint8_t len, uint8_t* dat);//TODO for later
 
 
 

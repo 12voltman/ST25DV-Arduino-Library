@@ -121,10 +121,16 @@
     }
 
 //User memory functions
+    uint8_t ST25DV::readByte(uint16_t reg){
+        if(reg > this->MEMENDPOINT){return 0;}
+        return getByte(this->ADDRESS, reg);
+    }
 
-
-
-
+    void ST25DV::writeByte(uint16_t reg, uint8_t dat){
+        if(reg > this->MEMENDPOINT){
+            setByte(this->ADDRESS, reg, dat);
+        }
+    }
 
 //Dynamic register functions
     
