@@ -34,7 +34,7 @@ class ST25DV
         ST25DV(void);
         uint8_t begin(TwoWire &port = Wire);
         void enableDelay(bool en);
-    
+        
     
     //Worker functions
         //TODO get and set bulk functions
@@ -48,6 +48,7 @@ class ST25DV
         void setByte(uint8_t add, uint16_t reg, uint8_t dat);
         bool getBit(uint8_t add, uint8_t reg, uint8_t bit);
         void setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat);
+        bool presentPassword(uint64_t pass);
 
 
 

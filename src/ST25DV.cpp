@@ -129,14 +129,37 @@
         setByte(add, reg, buffer);
     }
 
+    bool ST25DV::presentPassword(uint64_t pass){
+        array64bits adat;
+        adat.d64 = pass;
+        this->WIREPORT->beginTransmission(this->ADDRESS_CONFIG);
+        this->WIREPORT->write(this->REG_I2C_PWD_START >> 8);
+        this->WIREPORT->write(this->REG_I2C_PWD_START & 0xFF);
+        for(uint8_t i = 0; i<8; i++){
+            this->WIREPORT->write(adat.d8[7-i]);
+        }
+        this->WIREPORT->write(this->REG_I2C_PWD_START >> 8);
+        for(uint8_t i = 0; i<8; i++){
+            this->WIREPORT->write(adat.d8[7-i]);
+        }
+        this->WIREPORT->endTransmission();
+        if(this->BUILT_IN_DELAY){//Passowrd comparison check delay and unlock verification
+            delay(10);
+            return getI2CUnlocked();
+        }
+        return 1;
+    }
+
 //User memory functions
     uint8_t ST25DV::readByte(uint16_t reg){
-        if(reg > this->MEMENDPOINT){return 0;}
-        return getByte(this->ADDRESS, reg);
+        if(reg < this->MEMENDPOINT){
+            return getByte(this->ADDRESS, reg);
+        }
+        return 0;
     }
 
     void ST25DV::writeByte(uint16_t reg, uint8_t dat){
-        if(reg > this->MEMENDPOINT){
+        if(reg < this->MEMENDPOINT){
             setByte(this->ADDRESS, reg, dat);
         }
     }
