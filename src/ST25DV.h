@@ -14,17 +14,26 @@
 #include <Wire.h>
 #include <stdint.h>
 
+typedef union
+{
+    uint64_t d64;
+    uint8_t d8[8];
+}array64bits;
+
+
 class ST25DV
 {
     public:
+
+    //Constructors
         ST25DV(void);
         uint8_t begin(TwoWire &port = Wire);
     
     
     //Worker functions
         //TODO get and set bulk functions
-        uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);
-        void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat);
+        //uint8_t* getBulk(uint8_t add, uint16_t reg, uint8_t len);//TODO for later
+        //void setBulk(uint8_t add, uint16_t reg, uint8_t len, uint8_t* dat);//TODO for later
         uint64_t get64bits(uint8_t add, uint16_t reg);
         void set64bits(uint8_t add, uint16_t reg, uint64_t dat);
         uint16_t get16bits(uint8_t add, uint16_t reg);
@@ -39,8 +48,8 @@ class ST25DV
     //User memory functions
         uint8_t readByte(uint16_t reg);
         void writeByte(uint16_t reg, uint8_t dat);
-        uint8_t* read(uint16_t reg, uint8_t len);
-        void write(uint16_t reg, uint8_t len, uint8_t* dat);
+        //uint8_t* read(uint16_t reg, uint8_t len);//TODO for later
+        //void write(uint16_t reg, uint8_t len, uint8_t* dat);//TODO for later
 
 
 
@@ -122,9 +131,7 @@ class ST25DV
 
     private:
         TwoWire *WIREPORT;
-        uint8_t GPO_PIN = 0;
         uint16_t MEMENDPOINT;
-        uint8_t FTM_ENABLED = 0;
         
         const uint8_t ADDRESS = 0x53;//For user memory, dynamic registers, FTM mailbox
         const uint8_t ADDRESS_CONFIG = 0x57;//For sytem config registers

@@ -35,6 +35,37 @@
 
 
 //Worker functions
+    
+    uint64_t ST25DV::get64bits(uint8_t add, uint16_t reg){
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        this->WIREPORT->endTransmission();
+        this->WIREPORT->requestFrom(add, 8);
+        uint64_t buffer = 0;
+        buffer |= this->WIREPORT->read();
+        for(uint8_t i = 0; i < 7; i++){
+            buffer <<= 8;
+            buffer |= this->WIREPORT->read();
+        }
+        this->WIREPORT->endTransmission();
+        return buffer;
+    }
+
+    uint16_t ST25DV::get16bits(uint8_t add, uint16_t reg){
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        this->WIREPORT->endTransmission();
+        this->WIREPORT->requestFrom(add, 8);
+        uint16_t buffer = 0;
+        buffer |= this->WIREPORT->read();
+        buffer <<= 8;
+        buffer |= this->WIREPORT->read();
+        this->WIREPORT->endTransmission();
+        return buffer;
+    }
+    
     uint8_t ST25DV::getByte(uint8_t add, uint16_t reg){
         this->WIREPORT->beginTransmission(add);
         this->WIREPORT->write(reg >> 8);
@@ -45,6 +76,34 @@
         this->WIREPORT->endTransmission();
         return buffer;
     }
+    
+    bool ST25DV::getBit(uint8_t add, uint8_t reg, uint8_t bit){
+        uint8_t buffer = getByte(add, reg);
+        buffer >>= bit;
+        buffer &= 0x01;
+        return buffer;
+    }
+
+    void ST25DV::set64bits(uint8_t add, uint16_t reg, uint64_t dat){
+        array64bits adat;
+        adat.d64 = dat;
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        for(uint8_t i = 0; i<8; i++){
+            this->WIREPORT->write(adat.d8[7-i]);
+        }
+        this->WIREPORT->endTransmission();
+    }
+
+    void ST25DV::set16bits(uint8_t add, uint16_t reg, uint16_t dat){
+        this->WIREPORT->beginTransmission(add);
+        this->WIREPORT->write(reg >> 8);
+        this->WIREPORT->write(reg & 0xFF);
+        this->WIREPORT->write(dat >> 8);
+        this->WIREPORT->write(dat & 0xFF);
+        this->WIREPORT->endTransmission();
+    }
 
     void ST25DV::setByte(uint8_t add, uint16_t reg, uint8_t dat){
         this->WIREPORT->beginTransmission(add);
@@ -52,13 +111,6 @@
         this->WIREPORT->write(reg & 0xFF);
         this->WIREPORT->write(dat);
         this->WIREPORT->endTransmission();
-    }
-
-    bool ST25DV::getBit(uint8_t add, uint8_t reg, uint8_t bit){
-        uint8_t buffer = getByte(add, reg);
-        buffer >>= bit;
-        buffer &= 0x01;
-        return buffer;
     }
 
     void ST25DV::setBit(uint8_t add, uint8_t reg, uint8_t bit, bool dat){
