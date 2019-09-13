@@ -1,9 +1,14 @@
-/*
- * ST25DV.h
- *
- *  Created on: August 27, 2019
- *      Author: Max Robinson
- */
+//============================================================================
+// Name        : ST25DV.h
+// Author      : Max Robinson
+// Date        : 27-09-2019
+// Version     : 0.1
+// Copyright   : Public Domain
+// Description : Arduino library to interface with the ST25DV**K series of
+//               dynamic NFC tags by ST. This library was created using the
+//				 datasheet available at the following address:
+//				 https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/74/20/c5/ca/b8/a1/41/e3/DM00167716/files/DM00167716.pdf/jcr:content/translations/en.DM00167716.pdf
+//============================================================================
 
 
 
@@ -54,10 +59,8 @@ class ST25DV
 
 
     //Dynamic register functions
-        uint8_t getGPOMode_Dyn();
-        void setGPOMode_Dyn(uint8_t val);
-        uint8_t getGPOEnabled_Dyn();
-        void setGPOEnabled_Dyn(uint8_t val);
+        bool getGPOEnabledDyn();
+        void setGPOEnabledDyn(bool val);
 
         uint8_t getEHEnabled();
         void setEHEnabled(uint8_t val);
@@ -93,26 +96,39 @@ class ST25DV
 
 
 
-    //System configuration area functions
-        uint8_t unlockI2C(uint64_t pass);
-        void lockI2C();
-        
-        void changeI2CPassword(uint64_t newpass);
-        
-        
-        //TODO add rest of registers
+    //System configuration area functions       
+        uint8_t getGPOMode();
+        void setGPOMode();
+        bool getGPOEnabledBoot();
+        void setGPOEnabledBoot(bool active);
+        uint8_t getInterruptTime();
+        void setInterruptTime(uint8_t tim);
+        bool getEHForced();
+        void setEHForced(bool forced);
+        bool getRFDisable();
+        void setRFDisable(bool dis);
+        bool getRFSleep();
+        void setRFSleep(bool slp);
+
         uint8_t getENDA(uint8_t area);
         void setENDA(uint8_t area, uint8_t endpoint);
-        //TODO add rest of registers
+        uint8_t getRFZonePass(uint8_t area);
+        void setRFZonePass(uint8_t area, uint8_t pass);
+        uint8_t getRFZoneLock(uint8_t area);
+        void setRFZoneLock(uint8_t area, uint8_t mode);
+        uint8_t getI2CZoneLock(uint8_t area);
+        void setI2CZoneLock(uint8_t area, uint8_t mode);
 
+        bool getCCFileLock(uint8_t block);
+        void setCCFileLock(uint8_t block, bool val);
+        bool getMBEnabled();
+        void setMBEnabled(bool en);
+        uint8_t getMBTimeout();
+        void setMBTimeout(uint8_t val);
+        bool getRFCFGLock();
+        void setRFCFGLock(bool val);
 
-        uint8_t getRFDisable();
-        void setRFDisable(uint8_t val);
-        uint8_t getRFSleep();
-        void setRFSleep(uint8_t val);
-
-
-
+        //RO registers
         uint8_t getDSFIDLock();
         uint8_t getAFILock();
         uint8_t getDSFID();
@@ -180,8 +196,7 @@ class ST25DV
         const uint16_t REG_LOCK_AFI = 0x0011;
         const uint16_t REG_DSFID = 0x0012;
         const uint16_t REG_AFI = 0x0013;
-        const uint16_t REG_MEM_SIZE_L = 0x0014;
-        const uint16_t REG_MEM_SIZE_H = 0x0015;
+        const uint16_t REG_MEM_SIZE = 0x0014;
         const uint16_t REG_BLK_SIZE = 0x0016;
         const uint16_t REG_IC_REF = 0x0017;
         const uint16_t REG_UID_START = 0x0018;
