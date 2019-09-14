@@ -62,16 +62,16 @@ class ST25DV
         bool getGPOEnabledDyn();
         void setGPOEnabledDyn(bool val);
 
-        uint8_t getEHEnabled();
-        void setEHEnabled(uint8_t val);
+        uint8_t getEHEnabledDyn();
+        void setEHEnabledDyn(bool val);
         uint8_t getEHActive();//TODO: Check meaning
         uint8_t getRFFieldPresent();
         uint8_t getVCCOn();
 
         uint8_t getRFDisable_Dyn();
-        void setRFDisable_Dyn(uint8_t val);
+        void setRFDisable_Dyn(bool dis);
         uint8_t getRFSleep_Dyn();
-        void setRFSleep_Dyn(uint8_t val);
+        void setRFSleep_Dyn(uint8_t slp);
 
         uint8_t getI2CUnlocked();
 
@@ -79,6 +79,7 @@ class ST25DV
 
         uint8_t getFTMEnable();
         void setFTMEnable(uint8_t val);
+        uint8_t getMailboxStatus();
         uint8_t getHostPutMessage();
         uint8_t getRFPutMessage();
         uint8_t getHostMissMessage();
