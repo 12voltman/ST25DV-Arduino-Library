@@ -154,9 +154,97 @@
     }
 
 //Dynamic register functions
+    bool ST25DV::getGPOEnabledDyn(){
+        return getBit(this->ADDRESS, this->REG_GPO_CTRL_Dyn, 7);
+    }
     
+    void ST25DV::setGPOEnabledDyn(bool val){
+        setBit(this->ADDRESS, this->REG_GPO_CTRL_Dyn, 7, val);
+    }
+
+    bool ST25DV::getEHEnabledDyn(){
+        return getBit(this->ADDRESS, this->REG_EH_CONTROL_Dyn, 0);
+    }
+
+    void ST25DV::setEHEnabledDyn(bool val){
+        setBit(this->ADDRESS, this->REG_EH_CONTROL_Dyn, 0, val);
+    }
+
+    bool ST25DV::getEHActive(){
+        return getBit(this->ADDRESS, this->REG_EH_CONTROL_Dyn, 1);
+    }
+
+    bool ST25DV::getRFFieldPresent(){
+        return getBit(this->ADDRESS, this->REG_EH_CONTROL_Dyn, 2);
+    }
+
+    bool ST25DV::getVCCOn(){
+        return getBit(this->ADDRESS, this->REG_EH_CONTROL_Dyn, 3);
+    }
+
+    bool ST25DV::getRFDisableDyn(){
+        return getBit(this->ADDRESS, this->REG_RF_MNGT_Dyn, 0);
+    }
+
+    void ST25DV::setRFDisableDyn(bool val){
+        setBit(this->ADDRESS, this->REG_RF_MNGT_Dyn, 0, val);
+    }
+
+    bool ST25DV::getRFSleepDyn(){
+        return getBit(this->ADDRESS, this->REG_RF_MNGT_Dyn, 1);
+    }
+
+    void ST25DV::setRFSleepDyn(bool val){
+        setBit(this->ADDRESS, this->REG_RF_MNGT_Dyn, 1, val);
+    }
     
-    
+    bool ST25DV::getI2CUnlocked(){
+        return getBit(this->ADDRESS, this->REG_I2C_SSO_Dyn, 0);
+    }
+
+    uint8_t ST25DV::getInterruptSource(){
+        return getByte(this->ADDRESS, this->REG_IT_STS_Dyn);
+    }
+
+    bool ST25DV::getFTMEnable(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 0);
+    }
+
+    void ST25DV::setFTMEnable(bool val){
+        setBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 0, val);
+    }
+
+    uint8_t ST25DV::getMailboxStatus(){
+        return getByte(this->ADDRESS, this->REG_MB_CTRL_Dyn);
+    }
+
+    bool ST25DV::getHostPutMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 1);
+    }
+
+    bool ST25DV::getRFPutMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 2);
+    }
+
+    bool ST25DV::getHostMissMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 4);
+    }
+
+    bool ST25DV::getRFMissMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 5);
+    }
+
+    bool ST25DV::getHostCurrentMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 6);
+    }
+
+    bool ST25DV::getRFCurrentMessage(){
+        return getBit(this->ADDRESS, this->REG_MB_CTRL_Dyn, 7);
+    }
+
+    uint8_t ST25DV::getMailboxMessageSize(){
+        return getByte(this->ADDRESS, this->REG_MB_LEN_Dyn);
+    }
     
 
 //Fast transfer mode buffer functions

@@ -62,30 +62,30 @@ class ST25DV
         bool getGPOEnabledDyn();
         void setGPOEnabledDyn(bool val);
 
-        uint8_t getEHEnabledDyn();
+        bool getEHEnabledDyn();
         void setEHEnabledDyn(bool val);
-        uint8_t getEHActive();//TODO: Check meaning
-        uint8_t getRFFieldPresent();
-        uint8_t getVCCOn();
+        bool getEHActive();//TODO: Check meaning
+        bool getRFFieldPresent();
+        bool getVCCOn();
 
-        uint8_t getRFDisable_Dyn();
-        void setRFDisable_Dyn(bool dis);
-        uint8_t getRFSleep_Dyn();
-        void setRFSleep_Dyn(uint8_t slp);
+        bool getRFDisableDyn();
+        void setRFDisableDyn(bool dis);
+        bool getRFSleepDyn();
+        void setRFSleepDyn(bool slp);
 
-        uint8_t getI2CUnlocked();
+        bool getI2CUnlocked();
 
         uint8_t getInterruptSource();
 
-        uint8_t getFTMEnable();
-        void setFTMEnable(uint8_t val);
+        bool getFTMEnable();
+        void setFTMEnable(bool val);
         uint8_t getMailboxStatus();
-        uint8_t getHostPutMessage();
-        uint8_t getRFPutMessage();
-        uint8_t getHostMissMessage();
-        uint8_t getRFMissMessage();
-        uint8_t getHostCurrentMessage();
-        uint8_t getRFCurrentMessage();
+        bool getHostPutMessage();
+        bool getRFPutMessage();
+        bool getHostMissMessage();
+        bool getRFMissMessage();
+        bool getHostCurrentMessage();
+        bool getRFCurrentMessage();
 
         uint8_t getMailboxMessageSize();
 
