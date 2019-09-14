@@ -29,7 +29,6 @@ typedef union
 class ST25DV
 {
     public:
-
     //Constructors
         ST25DV(void);
         uint8_t begin(TwoWire &port = Wire);
@@ -99,7 +98,7 @@ class ST25DV
 
     //System configuration area functions       
         uint8_t getGPOMode();
-        void setGPOMode();
+        void setGPOMode(uint8_t mode);
         bool getGPOEnabledBoot();
         void setGPOEnabledBoot(bool active);
         uint8_t getInterruptTime();

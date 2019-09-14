@@ -268,7 +268,237 @@
 
 
 //System configuration area functions
+    uint8_t ST25DV::getGPOMode(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_GPO) & 0x7F;
+    }
 
+    void ST25DV::setGPOMode(uint8_t mode){
+        uint8_t buffer = getByte(this->ADDRESS_CONFIG, this->REG_GPO) & 0x80;
+        buffer |= (mode & 0x7F);
+        setByte(this->ADDRESS_CONFIG, this->REG_GPO, buffer);
+    }
+
+    bool ST25DV::getGPOEnabledBoot(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_GPO, 7);
+    }
+
+    void ST25DV::setGPOEnabledBoot(bool active){
+        setBit(this->ADDRESS_CONFIG, this->REG_GPO, 7, active);
+    }
+
+    uint8_t ST25DV::getInterruptTime(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_IT_TIME);
+    }
+
+    void ST25DV::setInterruptTime(uint8_t tim){
+        setByte(this->ADDRESS_CONFIG, this->REG_IT_TIME, tim & 0x07);
+    }
+
+    bool ST25DV::getEHForced(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_EH_MODE, 0);
+    }
+
+    void ST25DV::setEHForced(bool forced){
+        setBit(this->ADDRESS_CONFIG, this->REG_EH_MODE, 0, forced);
+    }
+
+    bool ST25DV::getRFDisable(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_RF_MNGT, 0);
+    }
+
+    void ST25DV::setRFDisable(bool dis){
+        setBit(this->ADDRESS_CONFIG, this->REG_RF_MNGT, 0, dis);
+    }
+
+    bool ST25DV::getRFSleep(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_RF_MNGT, 1);
+    }
+
+    void ST25DV::setRFSleep(bool slp){
+        setBit(this->ADDRESS_CONFIG, this->REG_RF_MNGT, 1, slp);
+    }
+
+    uint8_t ST25DV::getENDA(uint8_t area){
+        switch (area){
+            case 1:
+                return getByte(this->ADDRESS_CONFIG, this->REG_ENDA1);
+            case 2:
+                return getByte(this->ADDRESS_CONFIG, this->REG_ENDA2);
+            case 3:
+                return getByte(this->ADDRESS_CONFIG, this->REG_ENDA3);
+            default:
+                return 0;
+        }
+    }
+
+    void ST25DV::setENDA(uint8_t area, uint8_t endpoint){
+        switch (area){
+        case 1:
+            setByte(this->ADDRESS_CONFIG, this->REG_ENDA1, endpoint);
+            break;
+        case 2:
+            setByte(this->ADDRESS_CONFIG, this->REG_ENDA2, endpoint);
+            break;
+        case 3:
+            setByte(this->ADDRESS_CONFIG, this->REG_ENDA3, endpoint);
+            break;
+        default:
+            break;
+        }
+    }
+
+    uint8_t ST25DV::getRFZonePass(uint8_t area){
+        switch (area){
+            case 1:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA1SS) & 0x03;
+            case 2:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA2SS) & 0x03;
+            case 3:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA3SS) & 0x03;
+            case 4:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA4SS) & 0x03;
+            default:
+                return 0;
+        }
+    }
+
+    void ST25DV::setRFZonePass(uint8_t area, uint8_t pass){
+        if((area > 0) && (area < 5)){
+            uint16_t add = 0;
+            switch(area){
+                case 1:
+                    add = this->REG_RFA1SS;
+                    break;
+                case 2:
+                    add = this->REG_RFA2SS;
+                    break;
+                case 3:
+                    add = this->REG_RFA3SS;
+                    break;
+                case 4:
+                    add = this->REG_RFA4SS;
+                    break;
+                default:
+                    break;
+            }
+            uint8_t buffer = getByte(this->ADDRESS_CONFIG, add) & 0xFC;
+            buffer |= (pass & 0x03);
+            setByte(this->ADDRESS_CONFIG, add, buffer);
+        }
+    }
+
+    uint8_t ST25DV::getRFZoneLock(uint8_t area){
+        switch (area){
+            case 1:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA1SS) & 0x0C;
+            case 2:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA2SS) & 0x0C;
+            case 3:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA3SS) & 0x0C;
+            case 4:
+                return getByte(this->ADDRESS_CONFIG, this->REG_RFA4SS) & 0x0C;
+            default:
+                return 0;
+        }
+    }
+
+    void ST25DV::setRFZoneLock(uint8_t area, uint8_t mode){
+        if((area > 0) && (area < 5)){
+            uint16_t add = 0;
+            switch(area){
+                case 1:
+                    add = this->REG_RFA1SS;
+                    break;
+                case 2:
+                    add = this->REG_RFA2SS;
+                    break;
+                case 3:
+                    add = this->REG_RFA3SS;
+                    break;
+                case 4:
+                    add = this->REG_RFA4SS;
+                    break;
+                default:
+                    break;
+            }
+            uint8_t buffer = getByte(this->ADDRESS_CONFIG, add) & 0xF3;
+            buffer |= ((mode & 0x03) << 2);
+            setByte(this->ADDRESS_CONFIG, add, buffer);
+        }
+    }
+
+    uint8_t ST25DV::getI2CZoneLock(uint8_t area){
+        switch (area){
+            case 1:
+                return getByte(this->ADDRESS_CONFIG, this->REG_I2CSS) & 0x03;
+            case 2:
+                return getByte(this->ADDRESS_CONFIG, this->REG_I2CSS) & 0x0C;
+            case 3:
+                return getByte(this->ADDRESS_CONFIG, this->REG_I2CSS) & 0x30;
+            case 4:
+                return getByte(this->ADDRESS_CONFIG, this->REG_I2CSS) & 0xC0;
+            default:
+                return 0;
+        }
+    }
+
+    void ST25DV::setI2CZoneLock(uint8_t area, uint8_t mode){
+        uint8_t buffer = getByte(this->ADDRESS_CONFIG, this->REG_I2CSS);
+        uint8_t newlock = mode & 0x03;
+        switch (area){
+            case 1:
+                setByte(this->ADDRESS_CONFIG, this->REG_I2CSS, (buffer & 0xFC) | newlock);
+                break;
+            case 2:
+                setByte(this->ADDRESS_CONFIG, this->REG_I2CSS, (buffer & 0xF3) | (newlock << 2));
+                break;
+            case 3:
+                setByte(this->ADDRESS_CONFIG, this->REG_I2CSS, (buffer & 0xCF) | (newlock << 4));
+                break;
+            case 4:
+                setByte(this->ADDRESS_CONFIG, this->REG_I2CSS, (buffer & 0x3F) | (newlock << 6));
+                break;
+            default:
+                break;
+        }
+    }
+
+    bool ST25DV::getCCFileLock(uint8_t block){
+        return getBit(this->ADDRESS_CONFIG, this->REG_LOCK_CCFILE, block & 0x01);
+    }
+
+    void ST25DV::setCCFileLock(uint8_t block, bool val){
+        setBit(this->ADDRESS_CONFIG, this->REG_LOCK_CCFILE, block * 0x01, val);
+    }
+
+    bool ST25DV::getMBEnabled(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_MB_MODE, 0);
+    }
+
+    void ST25DV::setMBEnabled(bool en){
+        setBit(this->ADDRESS_CONFIG, this->REG_MB_MODE, 0, en);
+    }
+
+    uint8_t ST25DV::getMBTimeout(){
+        return getByte(this->ADDRESS_CONFIG, this->REG_MB_WDG);
+    }
+
+    void ST25DV::setMBTimeout(uint8_t val){
+        if(val & 0xF8){
+            setByte(this->ADDRESS_CONFIG, this->REG_MB_WDG, 0x00);
+        }
+        else{
+            setByte(this->ADDRESS_CONFIG, this-REG_MB_WDG, val);
+        }
+    }
+
+    bool ST25DV::getRFCFGLock(){
+        return getBit(this->ADDRESS_CONFIG, this->REG_LOCK_CFG, 0);
+    }
+
+    void ST25DV::setRFCFGLock(bool val){
+        setBit(this->ADDRESS_CONFIG, this->REG_LOCK_CFG, 0, val);
+    }
 
     uint8_t ST25DV::getDSFIDLock(){
         return getByte(this->ADDRESS_CONFIG, this->REG_LOCK_DSFID);
