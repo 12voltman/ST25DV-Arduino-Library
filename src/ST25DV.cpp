@@ -140,6 +140,14 @@
     }
 
 //User memory functions
+    /*uint8_t* ST25DV::read(uint16_t reg, uint8_t len){
+        return getBulk(this->ADDRESS, reg, len);
+    }
+
+    void ST25DV::write(uint16_t reg, uint8_t len, uint8_t* dat){
+        setBulk(this->ADDRESS, reg, len, dat);
+    }*/
+    
     uint8_t ST25DV::readByte(uint16_t reg){
         if(reg < this->MEMENDPOINT){
             return getByte(this->ADDRESS, reg);
@@ -248,7 +256,13 @@
     
 
 //Fast transfer mode buffer functions
+    /*uint8_t* ST25DV::readMailbox(){
+        return getBulk(this->ADDRESS, this->REG_FAST_TRANSFER_START, getMailboxMessageSize());
+    }
 
+    void ST25DV::writeMailbox(uint8_t len, uint8_t* dat){
+        setBulk(this->ADDRESS, this->REG_FAST_TRANSFER_START, len, dat);
+    }*/
 
 
 
