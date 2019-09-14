@@ -23,7 +23,7 @@
         return result;
     }
 
-    void enableDelay(bool en){
+    void ST25DV::enableDelay(bool en){
         this->BUILT_IN_DELAY = en;
     }
 
